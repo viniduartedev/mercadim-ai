@@ -1,23 +1,7 @@
-spring:
-  config:
-    activate:
-      on-profile: local
-
-  jpa:
-    show-sql: true
-
-  flyway:
-    clean-disabled: true
-
 logging:
   level:
-    org.springframework.security: INFO
-    org.springframework.web: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+    org.springframework.jdbc.core: DEBUG
+    org.springframework.jdbc.datasource: DEBUG
     org.flywaydb: INFO
-    com.mercadimai.shared.seed: INFO
-
-app:
-  seed:
-    enabled: true

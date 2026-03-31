@@ -2,20 +2,16 @@ spring:
   application:
     name: mercadim-ai
   profiles:
-    default: local
+    active: local
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=${DB_SSL_MODE:require}
-    username: ${DB_USER}
+    url: jdbc:postgresql://${DB_HOST:db.yhqwhczczuckynbzyrat.supabase.co}:${DB_PORT:5432}/${DB_NAME:postgres}?sslmode=require
+    username: ${DB_USER:postgres}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
-    hikari:
-      maximum-pool-size: ${DB_POOL_MAX_SIZE:10}
-      minimum-idle: ${DB_POOL_MIN_IDLE:2}
-      connection-timeout: 30000
 
   jpa:
-    open-in-view: false
+    show-sql: true
     hibernate:
       ddl-auto: validate
     properties:
@@ -27,26 +23,8 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
-    validate-on-migrate: true
     locations: classpath:db/migration
 
 server:
-  servlet:
-    context-path: /api
+  port: 8080
 
-supabase:
-  url: ${SUPABASE_URL}
-  jwt:
-    issuer: ${SUPABASE_JWT_ISSUER}
-    audience: ${SUPABASE_JWT_AUDIENCE}
-    jwks-url: ${SUPABASE_JWKS_URL}
-
-app:
-  seed:
-    enabled: false
-
-springdoc:
-  api-docs:
-    path: /docs/api
-  swagger-ui:
-    path: /docs/swagger
