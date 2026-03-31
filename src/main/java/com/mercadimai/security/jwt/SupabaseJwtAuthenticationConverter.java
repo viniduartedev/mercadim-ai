@@ -28,7 +28,7 @@ public class SupabaseJwtAuthenticationConverter implements Converter<Jwt, Abstra
         AuthenticatedUserProfile principal = new AuthenticatedUserProfile(
                 profile.getId(),
                 profile.getAuthUserId(),
-                profile.getName(),
+                profile.getNome(),
                 profile.getEmail(),
                 profile.getRole()
         );

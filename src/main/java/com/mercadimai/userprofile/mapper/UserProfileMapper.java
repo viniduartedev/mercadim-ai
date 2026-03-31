@@ -11,10 +11,10 @@ public class UserProfileMapper {
         return new UserProfileResponse(
                 profile.getId(),
                 profile.getAuthUserId(),
-                profile.getName(),
+                profile.getNome(),
                 profile.getEmail(),
                 profile.getRole(),
-                profile.isActive(),
+                profile.isAtivo(),
                 profile.getCreatedAt(),
                 profile.getUpdatedAt()
         );
