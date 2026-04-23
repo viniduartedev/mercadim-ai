@@ -12,6 +12,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -36,8 +38,8 @@ public class GlobalExceptionHandler {
         return buildError(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI(), List.of());
     }
 
-    @ExceptionHandler({InvalidTokenException.class, JwtException.class})
-    public ResponseEntity<ApiErrorResponse> handleInvalidToken(RuntimeException ex, HttpServletRequest request) {
+    @ExceptionHandler({InvalidTokenException.class, JwtException.class, UnauthorizedException.class})
+    public ResponseEntity<ApiErrorResponse> handleUnauthorized(RuntimeException ex, HttpServletRequest request) {
         return buildError(HttpStatus.UNAUTHORIZED, ex.getMessage(), request.getRequestURI(), List.of());
     }
 
@@ -55,6 +57,11 @@ public class GlobalExceptionHandler {
                 .toList();
 
         return buildError(HttpStatus.BAD_REQUEST, "Campos inválidos na requisição", request.getRequestURI(), fieldErrors);
+    }
+
+    @ExceptionHandler({NoResourceFoundException.class, NoHandlerFoundException.class})
+    public ResponseEntity<ApiErrorResponse> handleNotMappedRoute(Exception ex, HttpServletRequest request) {
+        return buildError(HttpStatus.NOT_FOUND, "Recurso não encontrado", request.getRequestURI(), List.of());
     }
 
     @ExceptionHandler(Exception.class)

@@ -6,6 +6,7 @@ import com.mercadimai.userprofile.entity.UserProfile;
 import com.mercadimai.userprofile.service.UserProfileService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(prefix = "supabase.jwt", name = "enabled", havingValue = "true")
 @RequiredArgsConstructor
 public class SupabaseJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
