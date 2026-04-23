@@ -2,6 +2,7 @@ package com.mercadimai.config;
 
 import com.mercadimai.security.jwt.SupabaseJwtProperties;
 import java.util.List;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 @Configuration
+@ConditionalOnProperty(prefix = "supabase.jwt", name = "enabled", havingValue = "true")
 @EnableConfigurationProperties(SupabaseJwtProperties.class)
 public class SecurityJwtConfig {
 
