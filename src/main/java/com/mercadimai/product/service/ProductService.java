@@ -2,6 +2,7 @@ package com.mercadimai.product.service;
 
 import com.mercadimai.category.entity.Category;
 import com.mercadimai.category.repository.CategoryRepository;
+import com.mercadimai.exception.BusinessException;
 import com.mercadimai.exception.ConflictException;
 import com.mercadimai.exception.ResourceNotFoundException;
 import com.mercadimai.product.dto.ProductRequest;
@@ -42,7 +43,7 @@ public class ProductService {
 
         if (StringUtils.hasText(sku)) {
             String normalizedSku = sku.trim().toLowerCase();
-            spec = spec.and((root, query, cb) -> cb.equal(cb.lower(root.get("sku")), normalizedSku));
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("sku")), "%" + normalizedSku + "%"));
         }
 
         if (categoryId != null) {
@@ -122,8 +123,14 @@ public class ProductService {
     }
 
     private Category findCategoryById(Long categoryId) {
-        return categoryRepository.findById(categoryId)
+        Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+
+        if (!category.isAtivo()) {
+            throw new BusinessException("A categoria informada está inativa");
+        }
+
+        return category;
     }
 
     private void validateUniqueSku(String sku, Long currentId) {
@@ -139,7 +146,7 @@ public class ProductService {
     }
 
     private String normalizeSku(String sku) {
-        return sku.trim();
+        return sku.trim().toUpperCase();
     }
 
     private String normalizeNullable(String value) {

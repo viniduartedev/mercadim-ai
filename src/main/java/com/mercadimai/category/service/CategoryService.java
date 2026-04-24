@@ -7,8 +7,9 @@ import com.mercadimai.category.mapper.CategoryMapper;
 import com.mercadimai.category.repository.CategoryRepository;
 import com.mercadimai.exception.ConflictException;
 import com.mercadimai.exception.ResourceNotFoundException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,12 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Transactional(readOnly = true)
-    public List<CategoryResponse> list(Boolean active) {
-        return categoryRepository.findAll().stream()
-                .filter(category -> active == null || category.isAtivo() == active)
-                .map(categoryMapper::toResponse)
-                .toList();
+    public Page<CategoryResponse> list(Boolean active, Pageable pageable) {
+        if (active == null) {
+            return categoryRepository.findAll(pageable).map(categoryMapper::toResponse);
+        }
+
+        return categoryRepository.findByAtivo(active, pageable).map(categoryMapper::toResponse);
     }
 
     @Transactional(readOnly = true)

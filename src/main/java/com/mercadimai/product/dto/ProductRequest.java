@@ -9,17 +9,16 @@ import java.math.BigDecimal;
 
 public record ProductRequest(
         @NotBlank(message = "Nome é obrigatório")
-        @Size(max = 150, message = "Nome deve ter no máximo 150 caracteres")
+        @Size(max = 180, message = "Nome deve ter no máximo 180 caracteres")
         String name,
 
         @NotBlank(message = "SKU é obrigatório")
-        @Size(max = 60, message = "SKU deve ter no máximo 60 caracteres")
+        @Size(max = 80, message = "SKU deve ter no máximo 80 caracteres")
         String sku,
 
-        @Size(max = 50, message = "Código de barras deve ter no máximo 50 caracteres")
+        @Size(max = 80, message = "Código de barras deve ter no máximo 80 caracteres")
         String barcode,
 
-        @Size(max = 600, message = "Descrição deve ter no máximo 600 caracteres")
         String description,
 
         @NotNull(message = "Preço de venda é obrigatório")

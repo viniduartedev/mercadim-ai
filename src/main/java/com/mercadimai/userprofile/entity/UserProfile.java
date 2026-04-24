@@ -29,17 +29,17 @@ public class UserProfile extends AuditableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "auth_user_id", nullable = false, unique = true, length = 64)
+    @Column(name = "auth_user_id", nullable = false, unique = true, length = 255)
     private String authUserId;
 
-    @Column(name = "nome", nullable = false, length = 120)
+    @Column(name = "nome", nullable = false, length = 150)
     private String nome;
 
-    @Column(name = "email", nullable = false, unique = true, length = 120)
+    @Column(name = "email", nullable = false, unique = true, length = 180)
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 30)
     private UserRole role;
 
     @Column(name = "ativo", nullable = false)

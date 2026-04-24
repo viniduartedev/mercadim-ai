@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 @ConditionalOnProperty(prefix = "supabase.jwt", name = "enabled", havingValue = "true")
@@ -24,6 +25,10 @@ public class SupabaseJwtAuthenticationConverter implements Converter<Jwt, Abstra
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
         String authUserId = jwt.getSubject();
+        if (!StringUtils.hasText(authUserId)) {
+            throw new UserProfileNotFoundException("Token JWT sem subject válido");
+        }
+
         UserProfile profile = userProfileService.findActiveByAuthUserId(authUserId)
                 .orElseThrow(() -> new UserProfileNotFoundException("Usuário autenticado sem perfil interno ativo"));
 

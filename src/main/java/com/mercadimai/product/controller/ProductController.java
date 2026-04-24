@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class ProductController {
             @RequestParam(required = false) String sku,
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) Boolean active,
-            @PageableDefault(size = 20) Pageable pageable
+            @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<ProductResponse> page = productService.list(name, sku, categoryId, active, pageable);
 

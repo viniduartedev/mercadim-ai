@@ -21,6 +21,6 @@ public abstract class AuditableEntity {
     private OffsetDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 }

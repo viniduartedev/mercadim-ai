@@ -31,22 +31,22 @@ public class Product extends AuditableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome", nullable = false, length = 150)
+    @Column(name = "nome", nullable = false, length = 180)
     private String nome;
 
-    @Column(name = "sku", nullable = false, unique = true, length = 60)
+    @Column(name = "sku", nullable = false, unique = true, length = 80)
     private String sku;
 
-    @Column(name = "codigo_barras", length = 50)
+    @Column(name = "codigo_barras", length = 80)
     private String codigoBarras;
 
-    @Column(name = "descricao", length = 600)
+    @Column(name = "descricao")
     private String descricao;
 
     @Column(name = "preco_venda", nullable = false, precision = 12, scale = 2)
     private BigDecimal precoVenda;
 
-    @Column(name = "custo", precision = 12, scale = 2)
+    @Column(name = "custo", nullable = false, precision = 12, scale = 2)
     private BigDecimal custo;
 
     @Column(name = "estoque_atual", nullable = false)

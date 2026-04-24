@@ -5,9 +5,13 @@ import com.mercadimai.category.dto.CategoryResponse;
 import com.mercadimai.category.dto.CategoryStatusRequest;
 import com.mercadimai.category.service.CategoryService;
 import com.mercadimai.shared.api.ApiSuccessResponse;
+import com.mercadimai.shared.api.PageResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +32,15 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<ApiSuccessResponse<List<CategoryResponse>>> list(
-            @RequestParam(required = false) Boolean active
+    public ResponseEntity<ApiSuccessResponse<PageResponse<CategoryResponse>>> list(
+            @RequestParam(required = false) Boolean active,
+            @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
     ) {
+        Page<CategoryResponse> page = categoryService.list(active, pageable);
+
         return ResponseEntity.ok(ApiSuccessResponse.of(
                 "Categorias carregadas com sucesso",
-                categoryService.list(active)
+                PageResponse.from(page)
         ));
     }
 
